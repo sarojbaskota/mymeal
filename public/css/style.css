@@ -1,0 +1,11 @@
+.parsley-errors-list {
+    color: red;
+    list-style: none;
+    margin-left: -39px;
+}
+.parsley-range {
+    color: green;
+}
+.actual_error{
+    color:red;
+}

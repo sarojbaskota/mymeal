@@ -21,3 +21,6 @@ Route::resource('meal-type', 'MealTypeController');
 Route::resource('restaurant', 'RestaurantController');
 Route::get('quick-info', 'QuickInfoController@mealExpense');
 Route::get('payment-info','QuickInfoController@paymentInformation');
+Route::get('payment','PaymentController@index');
+Route::post('settled/{id}','PaymentController@settled');
+

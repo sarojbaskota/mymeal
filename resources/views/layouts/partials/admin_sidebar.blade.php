@@ -26,6 +26,7 @@
         <li class="{{(Request::segment(1) == 'expenses')?'active':''}}"><a href="{{url('expenses')}}"><i class="fa fa-group"></i> <span>Expenses On</span></a></li>
         <li class="{{(Request::segment(1) == 'meal-type')?'active':''}}"><a href="{{url('meal-type')}}"><i class="fa fa-group"></i> <span>Meal Type</span></a></li>
         <li class="{{(Request::segment(1) == 'restaurant')?'active':''}}"><a href="{{url('restaurant')}}"><i class="fa fa-group"></i> <span>Manage Restaurant</span></a></li>
+        <li class="{{(Request::segment(1) == 'payment')?'active':''}}"><a href="{{url('payment')}}"><i class="fa fa-group"></i> <span>Manage Payment</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>

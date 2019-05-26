@@ -23,10 +23,12 @@
         <li class="header">Navigation</li>
         <!-- Optionally, you can add icons to the links -->
         <li class="{{(Request::segment(1) == 'dashboard')?'active':''}}"><a href="{{url('dashboard')}}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-        <li class="{{(Request::segment(1) == 'expenses')?'active':''}}"><a href="{{url('expenses')}}"><i class="fa fa-group"></i> <span>Expenses On</span></a></li>
-        <li class="{{(Request::segment(1) == 'meal-type')?'active':''}}"><a href="{{url('meal-type')}}"><i class="fa fa-group"></i> <span>Meal Type</span></a></li>
-        <li class="{{(Request::segment(1) == 'restaurant')?'active':''}}"><a href="{{url('restaurant')}}"><i class="fa fa-group"></i> <span>Manage Restaurant</span></a></li>
-        <li class="{{(Request::segment(1) == 'payment')?'active':''}}"><a href="{{url('payment')}}"><i class="fa fa-group"></i> <span>Manage Payment</span></a></li>
+        <li class="{{(Request::segment(1) == 'expenses')?'active':''}}"><a href="{{url('expenses')}}"><i class="glyphicon glyphicon-edit"></i> <span>Expenses On</span></a></li>
+        <li class="{{(Request::segment(1) == 'expense-category')?'active':''}}"><a href="{{url('expense-category')}}"><i class="glyphicon glyphicon-option-vertical"></i> <span>Expenses Category</span></a></li>
+        <li class="{{(Request::segment(1) == 'supplier')?'active':''}}"><a href="{{url('supplier')}}"><i class="glyphicon glyphicon-shopping-cart"></i> <span>Manage Supplier</span></a></li>
+        <li class="{{(Request::segment(1) == 'payment')?'active':''}}"><a href="{{url('payment')}}"><i class="glyphicon glyphicon-check"></i> <span>Manage Payment</span></a></li>
+        <li class="{{(Request::segment(1) == 'monthly-expenses')?'active':''}}"><a href="{{url('monthly-expenses')}}"><i class="glyphicon glyphicon-list-alt"></i> <span>Monthly Expenses</span></a></li>
+        <li class="{{(Request::segment(1) == 'expenses-with-supplier')?'active':''}}"><a href="{{url('expenses-with-supplier')}}"><i class="glyphicon glyphicon-king"></i> <span>Expenses With Supplier</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>

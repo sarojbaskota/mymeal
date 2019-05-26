@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\Rules;
-use App\Meal;
-class MealTypeController extends Controller
+use App\Supplier;
+use App\Expense;
+class SupplierController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,8 @@ class MealTypeController extends Controller
      */
     public function index()
     {
-        $meals = Meal::select('id','title','created_at')->get();
-        return view('meal-type.index',compact('meals'));
+         $suppliers = Supplier::userId()->get();
+        return view('supplier.index',compact('suppliers'));
     }
 
     /**
@@ -34,10 +34,21 @@ class MealTypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Rules $request)
+    public function store(Request $request)
     {
-       Meal::create($request->all()); 
+        // return $request->supplier_name;
+        $validator = \Validator::make($request->all(), [
+            'supplier_name' => 'regex:/^[a-zA-Z ]+$/u|unique:suppliers,supplier_name|required|string',
+        ]);
+        if ($validator->fails())
+        {
+            return response()->json([
+               'errors' => $validator->errors()->all()
+            ]);
+        }
+      $ok = Supplier::create($request->all()); 
        return response()->json([
+          'mData' => $ok,
            'status' => 'Saved Successfully !!',
            ]); 
     }
@@ -50,8 +61,8 @@ class MealTypeController extends Controller
      */
     public function show($id)
     {
-        $meal = Meal::select('title','created_at')->where('id',$id)->get();
-        return view('meal-type.show',compact('meal'));
+        $supplier = Supplier::select('supplier_name','created_at')->where('id',$id)->userId()->get();
+        return view('supplier.show',compact('supplier'));
     }
 
     /**
@@ -62,9 +73,9 @@ class MealTypeController extends Controller
      */
     public function edit($id)
     {
-        $meal = Meal::select('title')->where('id',$id)->first();
+        $supplier = Supplier::select('supplier_name')->where('id',$id)->userId()->first();
         return response()->json([
-            'meal' => $meal
+            'supplier' => $supplier
             ]); 
     }
 
@@ -78,7 +89,7 @@ class MealTypeController extends Controller
     public function update(Request $request, $id)
     {
         $validator = \Validator::make($request->all(), [
-            'title' => 'regex:/^[a-zA-Z ]+$/u|required|string|unique:meals,title,'.$id,
+            'supplier_name' => 'regex:/^[a-zA-Z ]+$/u|required|string',
         ]);
         if ($validator->fails())
         {
@@ -86,8 +97,8 @@ class MealTypeController extends Controller
                'errors' => $validator->errors()->all()
             ]);
         }
-        $meal = Meal::findOrFail($id);
-        $meal->update($request->all());
+        $supplier = Supplier::findOrFail($id)->userId();
+        $supplier->update($request->all());
         return response()->json([
             'status' => 'Updated Successfully !!'
             ]); 
@@ -101,9 +112,19 @@ class MealTypeController extends Controller
      */
     public function destroy($id)
     {
-        $meal = Meal::findOrFail($id)->delete();
+        $supplier = Supplier::findOrFail($id)->userId()->delete();
         return response()->json([
             'status' => 'Deleted Successfully !!'
             ]); 
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function transaction($id){
+        $transactions = Expense::select('expenses.id','expenses.user_id','expenses.supplier_id','expenses.expenses_category_id','expenses.date','expenses.amount',          'expenses.payment','expenses_categories.title')
+        ->leftJoin('expenses_categories','expenses_categories.id','=','expenses.expenses_category_id')->where('supplier_id',$id)->where('expenses.user_id',\Auth::user()->id)->get();
+        return view('supplier.transactions.index',compact('transactions'));
     }
 }

@@ -15,10 +15,11 @@ class CreateExpensesTable extends Migration
     {
         Schema::create('expenses', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('meal_id');
-            $table->integer('restaurant_id');
-            $table->timestamp('date');
-            $table->integer('price');
+            $table->integer('user_id');
+            $table->integer('expenses_category_id');
+            $table->integer('supplier_id');
+            $table->dateTime('date');
+            $table->integer('amount');
             $table->enum('payment', ['paid', 'pending']);
             $table->string('remarks')->nullable();
             $table->timestamps();

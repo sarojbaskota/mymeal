@@ -10,26 +10,25 @@
                     </div>
                     <div class="modal-body">
                     <dl>
-                    
                     <dd>Day</dd>
                      <dt>
                        {{$expense->date}}
                      </dt>
-                     <dd>Meal Type</dd>
+                     <dd>Expenses Category</dd>
                      <dt>
                        {{$expense->title}}
                      </dt>
-                     <dd>Restaurant</dd>
+                     <dd>Supplier</dd>
                      <dt>
-                       {{$expense->restaurant_name}}
+                       {{$expense->supplier_name}}
                      </dt>
                      <dd>Payment</dd>
                      <dt>
                        {{$expense->payment}}
                      </dt>
-                     <dd>Price</dd>
+                     <dd>Amount</dd>
                      <dt>
-                       {{$expense->price}}
+                       {{$expense->amount}}
                      </dt>
                      <dd>Remarks</dd>
                      <dt>

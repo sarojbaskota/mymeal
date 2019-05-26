@@ -24,7 +24,7 @@ class Rules extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'regex:/^[a-zA-Z ]+$/u|unique:meals,title|required|string',
+            'title' => 'regex:/^[a-zA-Z ]+$/u|unique:expenses_categories,title|required|string',
         ];
     }
     /**

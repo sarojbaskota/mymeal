@@ -24,9 +24,9 @@
                     <th style="width: 20px;">SN</th>
                      <th style="width: 20px;">Settled</th>
                     <th>Expenses</th>
-                    <th>Restaurant</th>
+                    <th>Supplier</th>
                     <th>Payment</th>
-                    <th>Price</th>
+                    <th>Amount</th>
                     <th>Date</th>
                     <th>Remarks</th>
                     <th style="width: 120px;">Created On</th>
@@ -37,12 +37,12 @@
                 <tr> 
                     <td>{{$loop->iteration}}</td>
                     <td>
-                    <a class="btn btn-primary btn-sm settled" data-id=" {{$expense->id}} " > <i class="glyphicon glyphicon-ok" ></i> </a>
+                    <a class="btn btn-primary btn-sm settled" data-id=" {{$expense->id}} "> <i class="glyphicon glyphicon-ok" ></i> </a>
                     </td>
                     <td>{{$expense->title}}</td>
-                    <td>{{$expense->restaurant_name}}</td>
-                    <td>{{$expense->payment}}</td>
-                    <td>{{$expense->price}}</td>
+                    <td>{{$expense->supplier_name}}</td>
+                    <td class="{{($expense->payment == 'pending')? 'callout callout-danger' : ''}}">{{$expense->payment}}</td>
+                    <td>{{$expense->amount}}</td>
                     <td>{{$expense->date}}</td>
                     <td>{{$expense->remarks}}</td>
                     <td>{{$expense->created_at}}</td>

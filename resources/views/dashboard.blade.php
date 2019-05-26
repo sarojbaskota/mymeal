@@ -54,8 +54,8 @@
                                   <div class="form-group">
                                     <select name="restaurant_id" class="restaurant_id form-control">
                                     <option value="">Resto</option>
-                                    @foreach($restaurants as $restaurant)
-                                    <option value="{{$restaurant['id']}}">{{$restaurant['restaurant_name']}}</option>
+                                    @foreach($suppliers as $supplier)
+                                    <option value="{{$supplier['id']}}">{{$supplier['supplier_name']}}</option>
                                     @endforeach
                                     </select>
                                     <div class="restaurant_id_error"></div>
@@ -133,8 +133,8 @@
                                   <div class="form-group">
                                     <select name="restaurant_id" class="restaurant_id form-control">
                                     <option value="">Resto</option>
-                                    @foreach($restaurants as $restaurant)
-                                    <option value="{{$restaurant['id']}}">{{$restaurant['restaurant_name']}}</option>
+                                    @foreach($suppliers as $supplier)
+                                    <option value="{{$supplier['id']}}">{{$supplier['supplier_name']}}</option>
                                     @endforeach
                                     </select>
                                 </div>
@@ -151,9 +151,9 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                     <select name="meal_id" class="meal_id form-control">
-                                      <option value="">Meal</option>
-                                      @foreach($meal_types as $meal)
-                                      <option value="{{$meal['id']}}">{{$meal['title']}}</option>
+                                      <option value="">Expenses Category</option>
+                                      @foreach($expenses_categories as $expenses_category)
+                                      <option value="{{$expenses_category['id']}}">{{$expenses_category['title']}}</option>
                                       @endforeach
                                   </select>
                                     </div> 

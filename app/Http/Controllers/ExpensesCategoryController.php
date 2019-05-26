@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Restaurant;
-class RestaurantController extends Controller
+use App\Http\Requests\Rules;
+use App\ExpensesCategory;
+class ExpensesCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,8 +14,8 @@ class RestaurantController extends Controller
      */
     public function index()
     {
-         $restaurants = Restaurant::all();
-        return view('restaurant.index',compact('restaurants'));
+        $expenses = ExpensesCategory::select('id','title','created_at')->userId()->get();
+        return view('expenses-category.index',compact('expenses'));
     }
 
     /**
@@ -33,23 +34,12 @@ class RestaurantController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Rules $request)
     {
-        // return $request->restaurant_name;
-        $validator = \Validator::make($request->all(), [
-            'restaurant_name' => 'regex:/^[a-zA-Z ]+$/u|unique:restaurants,restaurant_name|required|string',
-        ]);
-        if ($validator->fails())
-        {
-            return response()->json([
-               'errors' => $validator->errors()->all()
-            ]);
-        }
-      $ok = Restaurant::create($request->all()); 
-       return response()->json([
-          'mData' => $ok,
-           'status' => 'Saved Successfully !!',
-           ]); 
+        ExpensesCategory::create($request->all()); 
+        return response()->json([
+            'status' => 'Saved Successfully !!',
+            ]); 
     }
 
     /**
@@ -60,8 +50,8 @@ class RestaurantController extends Controller
      */
     public function show($id)
     {
-        $restaurant = Restaurant::select('restaurant_name','created_at')->where('id',$id)->get();
-        return view('restaurant.show',compact('restaurant'));
+        $meal = ExpensesCategory::select('title','created_at')->where('id',$id)->userId()->get();
+        return view('expenses-category.show',compact('meal'));
     }
 
     /**
@@ -72,9 +62,9 @@ class RestaurantController extends Controller
      */
     public function edit($id)
     {
-        $restaurant = Restaurant::select('restaurant_name')->where('id',$id)->first();
+        $meal = ExpensesCategory::select('title')->where('id',$id)->userId()->first();
         return response()->json([
-            'restaurant' => $restaurant
+            'meal' => $meal
             ]); 
     }
 
@@ -88,7 +78,7 @@ class RestaurantController extends Controller
     public function update(Request $request, $id)
     {
         $validator = \Validator::make($request->all(), [
-            'restaurant_name' => 'regex:/^[a-zA-Z ]+$/u|required|string|unique:restaurants,restaurant_name,'.$id,
+            'title' => 'regex:/^[a-zA-Z ]+$/u|required|string',
         ]);
         if ($validator->fails())
         {
@@ -96,10 +86,10 @@ class RestaurantController extends Controller
                'errors' => $validator->errors()->all()
             ]);
         }
-        $meal = Restaurant::findOrFail($id);
-        $meal->update($request->all());
+       $expenses_category = ExpensesCategory::where('id',$id)->userId();
+        $expenses_category->update($request->all());
         return response()->json([
-            'status' => 'Updated Successfully !!'
+            'status' => 'Updated Successfully !!',
             ]); 
     }
 
@@ -111,7 +101,7 @@ class RestaurantController extends Controller
      */
     public function destroy($id)
     {
-        $meal = Restaurant::findOrFail($id)->delete();
+        $expenses_category = ExpensesCategory::findOrFail($id)->userId()->delete();
         return response()->json([
             'status' => 'Deleted Successfully !!'
             ]); 

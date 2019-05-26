@@ -1,9 +1,9 @@
 $(document).ready(function () {
     var base_url = "http://localhost:8000";
     // parsly
-    // restaurants manage 
+    // create meal types
     $(function () {
-        $("#create_restaurant")
+        $("#create_expenses_category")
             .parsley()
             .on("field:validated", function () {
                 var ok = $(".parsley-error").length === 0;
@@ -14,8 +14,10 @@ $(document).ready(function () {
                 return false; // Don't submit form for this demo
             });
     });
+
+    // edit_meal
     $(function () {
-        $("#edit_restaurant")
+        $("#edit_meal")
             .parsley()
             .on("field:validated", function () {
                 var ok = $(".parsley-error").length === 0;
@@ -25,10 +27,15 @@ $(document).ready(function () {
             .on("form:submit", function () {
                 return false; // Don't submit form for this demo
             });
+    });
+    // hide error if modal close
+    $("#expenses_category").on("click", ".modal_close", function () {
+        // $(".parsley-errors-list").style("display:none"); /*here add style for display none*/
     });
     // create modal
     $("#add_new").click(function () {
-        $("#restaurant").modal({
+        // $("#expenses_category").modal("show");
+        $("#expenses_category").modal({
             backdrop: "static",
             keyboard: false,
             show: true
@@ -36,14 +43,15 @@ $(document).ready(function () {
     });
     $("#modal_close");
 
-    $(".restaurant_name").keyup(function () {
+    $(".title").keyup(function () {
         $(".actual_error").hide("slow");
     });
     // store
-    $("#create_restaurant").submit(function (e) {
+    $("#create_expenses_category").submit(function (e) {
         e.preventDefault();
+        var title = $("#create_expenses_category .title").val();
         $.ajax({
-            url: base_url + "/restaurant",
+            url: base_url + "/expense-category",
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
             },
@@ -51,9 +59,7 @@ $(document).ready(function () {
             data: $(this).serialize(),
             success: function (result) {
                 // datatable
-                $("#restaurant_table").load(
-                    window.location + " #restaurant_table"
-                );
+                $("#expense-category-table").load(window.location + " #expense-category-table");
                 // datatable
                 if(!result.errors) {
                     swal({
@@ -61,8 +67,8 @@ $(document).ready(function () {
                         icon: "success",
                         button: "Done"
                     }).then(result => {
-                        $("#create_restaurant").trigger("reset");
-                        $("#restaurant").modal("toggle");
+                        $("#create_expenses_category").trigger("reset");
+                        $("#expenses_category").modal("toggle");
                         $(".parsley-errors-list").toggleClass("hidden");
                     });
                 }
@@ -78,35 +84,33 @@ $(document).ready(function () {
         });
     });
     // open edit
-    $("#restaurant_table").on("click", "tbody .edit", function () {
+    $("#expense-category-table").on("click", "tbody .edit", function () {
         var id = $(this).data("id");
         $.ajax({
-            url: base_url + "/restaurant/" + id + "/edit",
+            url: base_url + "/expense-category/" + id + "/edit",
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
             },
             type: "GET",
             success: function (result) {
-                console.log(result.restaurant);
+                console.log(result.meal);
 
-                $("#restaurant_edit").modal({
+                $("#meal_edit").modal({
                     backdrop: "static",
                     keyboard: false,
                     show: true
                 });
-                $("#restaurant_edit form .restaurant_name").val(
-                    result.restaurant.restaurant_name
-                );
-                $("#restaurant_edit form .id").val(id);
+                $("#meal_edit form .title").val(result.meal.title);
+                $("#meal_edit form .id").val(id);
             }
         });
     });
     //update
-    $("#edit_restaurant").submit(function (e) {
+    $("#edit_meal").submit(function (e) {
         e.preventDefault();
-        var id = $("#edit_restaurant .id").val();
+        var id = $("#edit_meal .id").val();
         $.ajax({
-            url: base_url + "/restaurant/" + id,
+            url: base_url + "/expense-category/" + id,
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
             },
@@ -119,13 +123,11 @@ $(document).ready(function () {
                         icon: "success",
                         button: "Done"
                     }).then(result => {
-                        $("#edit_restaurant").trigger("reset");
-                        $("#restaurant_edit").modal("toggle");
+                        $("#edit_meal").trigger("reset");
+                        $("#meal_edit").modal("toggle");
                         $(".parsley-errors-list").toggleClass("hidden");
                         // datatable
-                        $("#restaurant_table").load(
-                            window.location + " #restaurant_table"
-                        );
+                        $("#expense-category-table").load(window.location + " #expense-category-table");
                         // datatable
                     });
                 }
@@ -141,7 +143,7 @@ $(document).ready(function () {
         });
     });
     // delete
-    $("#restaurant_table").on("click", "tbody .delete", function () {
+    $("#expense-category-table").on("click", "tbody .delete", function () {
         swal({
             title: "Are you sure?",
             text: "Once deleted, you will not be able to recover this data !",
@@ -152,7 +154,7 @@ $(document).ready(function () {
             if(willDelete) {
                 var id = $(this).data("id");
                 $.ajax({
-                    url: base_url + "/restaurant/" + id,
+                    url: base_url + "/expense-category/" + id,
                     headers: {
                         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
                             "content"
@@ -166,8 +168,8 @@ $(document).ready(function () {
                             button: "Done"
                         }).then(result => {
                             // datatable
-                            $("#restaurant_table").load(
-                                window.location + " #restaurant_table"
+                            $("#expense-category-table").load(
+                                window.location + " #expense-category-table"
                             );
                             // datatable
                         });
@@ -180,12 +182,12 @@ $(document).ready(function () {
     });
     // show details
     // view quick details of user
-    $("#restaurant_table").on("click", "tbody .show_restaurant", function (e) {
+    $("#expense-category-table").on("click", "tbody .show_meal", function (e) {
         var id = $(this).data("id");
         e.preventDefault();
         $.ajax({
             type: "GET",
-            url: base_url + "/restaurant/" + id,
+            url: base_url + "/expense-category/" + id,
             success: function (data) {
                 console.log(data);
                 $("#show_modal").html(data);

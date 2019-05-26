@@ -2,6 +2,7 @@ $(document).ready(function () {
     var base_url = "http://localhost:8000";
     $(".settled").click(function (e) {
         e.preventDefault();
+        var id = $(this).data("id");
         swal({
             title: "Are you sure?",
             icon: "info",
@@ -9,7 +10,6 @@ $(document).ready(function () {
         })
             .then((willAccept) => {
                 if(willAccept) {
-                    var id = $(this).data("id");
                     $.ajax({
                         url: base_url + "/settled/" + id,
                         headers: {
@@ -22,6 +22,7 @@ $(document).ready(function () {
                                 icon: "success",
                                 button: "Done"
                             }).then(result => {
+                                console.log(result);
                                 location.reload();
                             });
                         },

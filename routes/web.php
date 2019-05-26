@@ -16,11 +16,14 @@ Route::get('/', function () {
 });
 Auth::routes();
 Route::get('/dashboard', 'DashboardController@dashboard');
-Route::resource('expenses', 'MealController');
-Route::resource('meal-type', 'MealTypeController');
-Route::resource('restaurant', 'RestaurantController');
+Route::resource('expenses', 'ExpensesController');
+Route::resource('expense-category', 'ExpensesCategoryController');
+Route::get('supplier/{id}', 'SupplierController@transaction');
+Route::resource('supplier', 'SupplierController');
 Route::get('quick-info', 'QuickInfoController@mealExpense');
 Route::get('payment-info','QuickInfoController@paymentInformation');
 Route::get('payment','PaymentController@index');
 Route::post('settled/{id}','PaymentController@settled');
+Route::get('monthly-expenses','ReportController@monthlyExpenses');
+Route::get('expenses-with-supplier','ReportController@expensesWithSupplier');
 

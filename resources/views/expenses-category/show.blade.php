@@ -6,18 +6,18 @@
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                    <h4 class="modal-title">Details of Restaurant</h4>
+                    <h4 class="modal-title">Details of Expenses Category</h4>
                     </div>
                     <div class="modal-body">
                     <dl>
                     
-                    <dd>Restaurant Name</dd>
+                    <dd>Title</dd>
                      <dt>
-                       {{$restaurant[0]['restaurant_name']}}
+                       {{$expense[0]['title']}}
                      </dt>
                      <dd>Created On</dd>
                      <dt>
-                       {{$restaurant[0]['created_at']}}
+                       {{$expense[0]['created_at']}}
                      </dt>
                     </dl>
                         </div>

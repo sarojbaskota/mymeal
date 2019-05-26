@@ -30,9 +30,9 @@
 <div class="wrapper">
 
   <!-- Main Header -->
-  @include('layouts.partials.admin_header')
+  @include('layouts.partials.user_header')
   <!-- Left side column. contains the logo and sidebar -->
-  @include('layouts.partials.admin_sidebar')
+  @include('layouts.partials.user_sidebar')
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -42,7 +42,7 @@
   <!-- /.content-wrapper -->
 <div id="multi_show"></div>
   <!-- Main Footer -->
-  @include('layouts.partials.admin_footer')
+  @include('layouts.partials.user_footer')
   <div class="control-sidebar-bg"></div>
 </div>
 
@@ -56,13 +56,14 @@
 <script src="{{asset('vendors/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('vendors/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <script src="{{asset('vendors/bower_components/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
-<!-- <script scr="{{asset('vendors/js/sweetalert.mini.js')}}" ></script> -->
+<script src="{{asset('js/sweetalert.min.js')}}"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="{{asset('vendors/parsley/dist/parsley.min.js')}}"></script>
 <!-- page script -->
 <script>
   $(function () {
-    $('#example1').DataTable()
+    $('#expense-category-table').DataTable()
+    $('#expenses-table').DataTable()
     $('#meal_table').DataTable({
       'paging'      : true,
       'lengthChange': true,

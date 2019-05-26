@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Restaurant;
-use App\Meal;
+use App\Supplier;
+use App\ExpensesCategory;
 
 class DashboardController extends Controller
 {
@@ -25,8 +25,8 @@ class DashboardController extends Controller
      */
     public function dashboard()
     {
-        $restaurants = Restaurant::all();
-        $meal_types = Meal::all();
-        return view('dashboard',compact('restaurants','meal_types'));
+        $suppliers = Supplier::all();
+        $expenses_categories = ExpensesCategory::all();
+        return view('dashboard',compact('suppliers','expenses_categories'));
     }
 }

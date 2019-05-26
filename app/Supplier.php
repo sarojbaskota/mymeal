@@ -4,26 +4,26 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Expense extends Model
+class Supplier extends Model
 {
-    /**
+   /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'expenses_category_id', 'user_id','supplier_id', 'date', 'amount', 'payment','remarks'
+        'supplier_name','user_id',
     ];
-    protected $dates = ['date'];
+    
     /**
-     * Get the user's first name.
+     * Set the user's first name.
      *
      * @param  string  $value
-     * @return string
+     * @return void
      */
-    public function getRemarksAttribute($value)
+    public function setRestaurantNameAttribute($value)
     {
-        return ucwords($value);
+        $this->attributes['supplier_name'] = ucwords($value);
     }
     /**
      * Scope a query to only include active users.

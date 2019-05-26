@@ -4,24 +4,23 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Expense extends Model
+class ExpensesCategory extends Model
 {
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var array expenses_categories
      */
     protected $fillable = [
-        'expenses_category_id', 'user_id','supplier_id', 'date', 'amount', 'payment','remarks'
+        'title','user_id',
     ];
-    protected $dates = ['date'];
     /**
      * Get the user's first name.
      *
      * @param  string  $value
      * @return string
      */
-    public function getRemarksAttribute($value)
+    public function getTitleAttribute($value)
     {
         return ucwords($value);
     }

@@ -1,9 +1,9 @@
 $(document).ready(function () {
     var base_url = "http://localhost:8000";
     // parsly
-    // create meal types
+    // suppliers manage 
     $(function () {
-        $("#create_meal")
+        $("#create_supplier")
             .parsley()
             .on("field:validated", function () {
                 var ok = $(".parsley-error").length === 0;
@@ -14,10 +14,8 @@ $(document).ready(function () {
                 return false; // Don't submit form for this demo
             });
     });
-
-    // edit_meal
     $(function () {
-        $("#edit_meal")
+        $("#edit_supplier")
             .parsley()
             .on("field:validated", function () {
                 var ok = $(".parsley-error").length === 0;
@@ -27,15 +25,10 @@ $(document).ready(function () {
             .on("form:submit", function () {
                 return false; // Don't submit form for this demo
             });
-    });
-    // hide error if modal close
-    $("#meal_types").on("click", ".modal_close", function () {
-        // $(".parsley-errors-list").style("display:none"); /*here add style for display none*/
     });
     // create modal
     $("#add_new").click(function () {
-        // $("#meal_types").modal("show");
-        $("#meal_types").modal({
+        $("#supplier").modal({
             backdrop: "static",
             keyboard: false,
             show: true
@@ -43,15 +36,14 @@ $(document).ready(function () {
     });
     $("#modal_close");
 
-    $(".title").keyup(function () {
+    $(".supplier_name").keyup(function () {
         $(".actual_error").hide("slow");
     });
     // store
-    $("#create_meal").submit(function (e) {
+    $("#create_supplier").submit(function (e) {
         e.preventDefault();
-        var title = $("#create_meal .title").val();
         $.ajax({
-            url: base_url + "/meal-type",
+            url: base_url + "/supplier",
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
             },
@@ -59,7 +51,9 @@ $(document).ready(function () {
             data: $(this).serialize(),
             success: function (result) {
                 // datatable
-                $("#meal_table").load(window.location + " #meal_table");
+                $("#supplier_table").load(
+                    window.location + " #supplier_table"
+                );
                 // datatable
                 if(!result.errors) {
                     swal({
@@ -67,8 +61,8 @@ $(document).ready(function () {
                         icon: "success",
                         button: "Done"
                     }).then(result => {
-                        $("#create_meal").trigger("reset");
-                        $("#meal_types").modal("toggle");
+                        $("#create_supplier").trigger("reset");
+                        $("#supplier").modal("toggle");
                         $(".parsley-errors-list").toggleClass("hidden");
                     });
                 }
@@ -84,33 +78,35 @@ $(document).ready(function () {
         });
     });
     // open edit
-    $("#meal_table").on("click", "tbody .edit", function () {
+    $("#supplier_table").on("click", "tbody .edit", function () {
         var id = $(this).data("id");
         $.ajax({
-            url: base_url + "/meal-type/" + id + "/edit",
+            url: base_url + "/supplier/" + id + "/edit",
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
             },
             type: "GET",
             success: function (result) {
-                console.log(result.meal);
+                console.log(result.supplier);
 
-                $("#meal_edit").modal({
+                $("#supplier_edit").modal({
                     backdrop: "static",
                     keyboard: false,
                     show: true
                 });
-                $("#meal_edit form .title").val(result.meal.title);
-                $("#meal_edit form .id").val(id);
+                $("#supplier_edit form .supplier_name").val(
+                    result.supplier.supplier_name
+                );
+                $("#supplier_edit form .id").val(id);
             }
         });
     });
     //update
-    $("#edit_meal").submit(function (e) {
+    $("#edit_supplier").submit(function (e) {
         e.preventDefault();
-        var id = $("#edit_meal .id").val();
+        var id = $("#edit_supplier .id").val();
         $.ajax({
-            url: base_url + "/meal-type/" + id,
+            url: base_url + "/supplier/" + id,
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
             },
@@ -123,27 +119,20 @@ $(document).ready(function () {
                         icon: "success",
                         button: "Done"
                     }).then(result => {
-                        $("#edit_meal").trigger("reset");
-                        $("#meal_edit").modal("toggle");
+                        $("#edit_supplier").trigger("reset");
+                        $("#supplier_edit").modal("toggle");
                         $(".parsley-errors-list").toggleClass("hidden");
                         // datatable
-                        $("#meal_table").load(window.location + " #meal_table");
-                        // datatable
+                        $("#supplier_table").load(
+                            window.location + " #supplier_table"
+                        );
                     });
-                }
-                if(result.errors) {
-                    $(".parsley-required").hide();
-                    $(".parsley-range").hide();
-                    $(".actual_error").remove();
-                    $(".parsley-errors-list").append(
-                        "<li class='actual_error'>" + result.errors + "</li>"
-                    );
                 }
             }
         });
     });
     // delete
-    $("#meal_table").on("click", "tbody .delete", function () {
+    $("#supplier_table").on("click", "tbody .delete", function () {
         swal({
             title: "Are you sure?",
             text: "Once deleted, you will not be able to recover this data !",
@@ -154,7 +143,7 @@ $(document).ready(function () {
             if(willDelete) {
                 var id = $(this).data("id");
                 $.ajax({
-                    url: base_url + "/meal-type/" + id,
+                    url: base_url + "/supplier/" + id,
                     headers: {
                         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
                             "content"
@@ -168,8 +157,8 @@ $(document).ready(function () {
                             button: "Done"
                         }).then(result => {
                             // datatable
-                            $("#meal_table").load(
-                                window.location + " #meal_table"
+                            $("#supplier_table").load(
+                                window.location + " #supplier_table"
                             );
                             // datatable
                         });
@@ -182,12 +171,12 @@ $(document).ready(function () {
     });
     // show details
     // view quick details of user
-    $("#meal_table").on("click", "tbody .show_meal", function (e) {
+    $("#supplier_table").on("click", "tbody .show_supplier", function (e) {
         var id = $(this).data("id");
         e.preventDefault();
         $.ajax({
             type: "GET",
-            url: base_url + "/meal-type/" + id,
+            url: base_url + "/supplier/" + id,
             success: function (data) {
                 console.log(data);
                 $("#show_modal").html(data);

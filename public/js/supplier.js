@@ -87,8 +87,6 @@ $(document).ready(function () {
             },
             type: "GET",
             success: function (result) {
-                console.log(result.supplier);
-
                 $("#supplier_edit").modal({
                     backdrop: "static",
                     keyboard: false,

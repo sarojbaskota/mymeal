@@ -74,6 +74,7 @@
     })
   })
 </script>
+<script src="{{asset('js/profile.js')}}"></script>
 @yield('scripts')
 </body>
 </html>

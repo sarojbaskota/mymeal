@@ -20,10 +20,9 @@ Route::resource('expenses', 'ExpensesController');
 Route::resource('expense-category', 'ExpensesCategoryController');
 Route::get('supplier/{id}', 'SupplierController@transaction');
 Route::resource('supplier', 'SupplierController');
-Route::get('quick-info', 'QuickInfoController@mealExpense');
-Route::get('payment-info','QuickInfoController@paymentInformation');
 Route::get('payment','PaymentController@index');
 Route::post('settled/{id}','PaymentController@settled');
 Route::get('monthly-expenses','ReportController@monthlyExpenses');
 Route::get('expenses-with-supplier','ReportController@expensesWithSupplier');
+Route::get('profile/{id}','UserController@profile');
 
